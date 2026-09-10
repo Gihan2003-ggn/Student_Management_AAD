@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Log In &middot; Student Portal</title>
+
+  <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+
+<div class="auth-page">
+
+  <div class="auth-card">
+
+    <div class="brand">
+      <span class="brand-mark">SM</span>
+      <span class="brand-text">Student&nbsp;Portal</span>
+    </div>
+
+    <p class="auth-subtitle">
+      Student Management System
+    </p>
+
+    <div class="auth-error" id="login-error"></div>
+
+    <form id="login-form">
+
+      <div class="form-field">
+        <label for="login-email">Email</label>
+
+        <input
+                type="email"
+                id="login-email"
+                required
+                autocomplete="username"
+        >
+      </div>
+
+      <div class="form-field">
+        <label for="login-password">Password</label>
+
+        <input
+                type="password"
+                id="login-password"
+                required
+                autocomplete="current-password"
+        >
+      </div>
+
+      <button
+              type="submit"
+              class="btn btn-primary"
+              style="width:100%"
+              id="login-btn"
+      >
+        Log in
+      </button>
+
+    </form>
+
+    <p class="auth-hint">
+      Don't have an account?
+      <a href="register.html">Register</a>
+    </p>
+
+  </div>
+
+</div>
+
+<div id="toast-stack"></div>
+
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+
+<script src="js/config.js"></script>
+<script src="js/ajax/auth-api.js"></script>
+
+<script src="js/ui.js"></script>
+
+<script>if (localStorage.getItem('sms_token')) {
+
+  window.location.href = 'dashboard.html';
+}
+
+$('#login-form').on('submit', function (e) {
+
+  e.preventDefault();
+
+  const email = $('#login-email')
+          .val()
+          .trim();
+
+  const password = $('#login-password')
+          .val();
+
+  $('#login-error')
+          .hide()
+          .text('');
+
+  $('#login-btn')
+          .prop('disabled', true)
+          .text('Logging in...');
+
+  AuthApi.login({
+    email: email,
+    password: password
+  })
+
+          .then(function (data) {
+
+            localStorage.setItem('sms_token', data.token);
+            localStorage.setItem('sms_email', data.email);
+            localStorage.setItem('sms_name', ((data.firstName || '') + ' ' + (data.lastName || '')).trim());
+            localStorage.setItem('sms_role', data.role);
+
+            window.location.href = 'dashboard.html';
+
+          })
+
+          .catch(function (err) {
+
+            $('#login-error')
+                    .text(
+                            (err.responseJSON && err.responseJSON.message) ||
+                            'Login failed.'
+                    )
+                    .show();
+
+          })
+
+          .always(function () {
+
+            $('#login-btn')
+                    .prop('disabled', false)
+                    .text('Log in');
+          });
+
+});
+</script>
+
+</body>
+</html>

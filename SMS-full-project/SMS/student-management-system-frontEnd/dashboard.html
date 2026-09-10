@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dashboard &middot; Student Portal</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<div class="app-shell">
+  <aside id="sidebar"></aside>
+  <div>
+    <header id="topbar"></header>
+    <main class="content">
+      <div class="panel">
+        <h2 class="panel-title">Welcome back</h2>
+        <p class="panel-subtitle" id="welcome-line">Here's a quick snapshot of the system.</p>
+      </div>
+      <div class="stat-grid" id="stat-grid">
+        <div class="stat-card"><div class="stat-value">&mdash;</div><div class="stat-label">Loading...</div></div>
+      </div>
+
+      <div class="panel">
+        <h2 class="panel-title">Quick links</h2>
+        <p class="panel-subtitle">Jump straight to a module.</p>
+        <div id="quick-links" style="display:flex; gap:10px; flex-wrap:wrap;"></div>
+      </div>
+    </main>
+  </div>
+</div>
+
+<div id="toast-stack"></div>
+
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+<script src="js/config.js"></script>
+<script src="js/ajax/departments-api.js"></script>
+<script src="js/ajax/courses-api.js"></script>
+<script src="js/ajax/batches-api.js"></script>
+<script src="js/ajax/students-api.js"></script>
+<script src="js/ajax/payments-api.js"></script>
+<script src="js/ui.js"></script>
+<script src="js/pages/dashboard.js"></script>
+</body>
+</html>
